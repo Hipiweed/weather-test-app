@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 
 
@@ -14,12 +14,14 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   @Input() placeholder = ""
 
+  @Output() locationChanged: EventEmitter<{lat: number, lng: number, placeID: string | undefined}> = new EventEmitter();
+
   autocomplete: google.maps.places.Autocomplete | undefined
 
   constructor() {}
 
   ngOnInit(): void {
-
+    console.log(2)
   }
   ngAfterViewInit() {
     this.autocomplete = new google.maps.places.Autocomplete(this.inputField.nativeElement);
@@ -29,9 +31,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       if (place && place.geometry && place.geometry.location) {
         const lat = place.geometry.location.lat();
         const lng = place.geometry.location.lng();
+        const placeID = place?.place_id
+        this.locationChanged.emit({ lat, lng, placeID});
         console.log(`Latitude: ${lat}, Longitude: ${lng}`);
       }
     });
+
   }
 
 
