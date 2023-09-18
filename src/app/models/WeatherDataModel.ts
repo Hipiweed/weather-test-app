@@ -5,4 +5,5 @@ export interface WeatherData {
   avrageTemp: number;
   city: string;
   windSpeed: number;
+  date: string
 }[]

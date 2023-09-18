@@ -86,7 +86,7 @@
   align-items: center;
 }
 .info-block-lable img {
-  width: 1em;
+  width: 1.3em;
 
 }
 .info-block-lable span {
@@ -96,7 +96,7 @@ font-size: 0.6em;
 .info-block-value {
   width: 50%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   color: white;
   font-size: 0.8em;
@@ -105,4 +105,5 @@ font-size: 0.6em;
 display: flex;
 flex-direction: row;
 flex-wrap: wrap;
+justify-content: center;
 }

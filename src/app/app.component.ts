@@ -25,7 +25,8 @@ export class AppComponent {
           rain: data.daily.rain_sum[index],
           avrageTemp: (data.daily.temperature_2m_max[index] + data.daily.temperature_2m_min[index]) / 2,
           city:location.city,
-          windSpeed: data.daily.windspeed_10m_max[index]
+          windSpeed: data.daily.windspeed_10m_max[index],
+          date: time
         };
       });
       this.weatherData = weatherData
