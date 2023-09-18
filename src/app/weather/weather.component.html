@@ -1,5 +1,13 @@
 
-  <div class="row" *ngIf="weatherData">
+<div class="row" *ngIf="weatherData">
+  <div class="week-change-buttons">
+    <button mat-fab aria-label="This Week" class="weather-button m-2" [class.active]="thisWeek" (click)="onWeekChange(true)">
+      <mat-icon>today</mat-icon>
+    </button>
+    <button mat-fab aria-label="Last Week" class="weather-button  m-2" [class.active]="!thisWeek" (click)="onWeekChange(false)">
+      <mat-icon>history</mat-icon>
+    </button>
+  </div>
     <div class="flexbox">
       <div class="shadow weather-data-container" *ngFor="let day of weatherData">
         <div class="upper-weather-data">
