@@ -1,8 +1,9 @@
 <div class="container">
   <div class="head-section d-flex justify-content-center  align-items-center">
-    <h1 class="m-0 b">Weather</h1>
+    <div class="m-0 title">Weather</div>
   </div>
-  <app-search></app-search>
+  <app-search (locationChanged)="onLocationChanged($event)"></app-search>
+  <app-weather></app-weather>
 </div>
 
 <router-outlet></router-outlet>
