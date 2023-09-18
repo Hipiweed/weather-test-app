@@ -11,7 +11,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class AppComponent {
   weatherData:undefined | WeatherData[] = undefined;
-  thisWeek:boolean = false;
+  thisWeek:boolean = true;
   lat: string | undefined;
   lng: string | undefined;
   city: string = ''
