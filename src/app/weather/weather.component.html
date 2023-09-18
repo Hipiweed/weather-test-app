@@ -1,13 +1,13 @@
 
-  <div class="row">
-    <div class="col">
-      <div class="shadow weather-data-container">
+  <div class="row" *ngIf="weatherData">
+    <div class="flexbox">
+      <div class="shadow weather-data-container" *ngFor="let day of weatherData">
         <div class="upper-weather-data">
-          <img src="../../assets/img/rainy.jpg" *ngIf="true">
-          <img src="../../assets/img/sunny.jpg"  *ngIf="false">
+          <img src="../../assets/img/rainy.jpg" *ngIf="day.rain >= 0.2">
+          <img src="../../assets/img/sunny.jpg"  *ngIf="day.rain <= 0.2">
           <div class="weather-data">
-            <div class="location pb-4">Ljubljana</div>
-            <div class="temperature">{{13.40 | number: '1.0-0'}} °C</div>
+            <div class="location pb-4">{{day.city}}</div>
+            <div class="temperature">{{day.avrageTemp | number: '1.0-0'}} °C</div>
           </div>
         </div>
         <div class="lower-weather-data">
@@ -21,7 +21,7 @@
                 <span>min</span>
               </div>
               <div class="info-block-value">
-                10 °C
+                {{day.minTemp}} °C
               </div>
             </div>
             <div class="info-block">
@@ -30,16 +30,16 @@
                 <span>max</span>
               </div>
               <div class="info-block-value">
-                20 °C
+                {{day.maxTemp}} °C
               </div>
             </div>
             <div class="info-block">
               <div class="info-block-lable">
                 <img src="../../assets/icons/humidity_3093442.png">
-                <span>humidity</span>
+                <span>rain</span>
               </div>
               <div class="info-block-value">
-                77 %
+                {{day.rain}} mm
               </div>
             </div>
             <div class="info-block">
@@ -48,7 +48,7 @@
                 <span>wind</span>
               </div>
               <div class="info-block-value">
-                11 km/h
+                {{day.windSpeed}} km/h
               </div>
 
             </div>

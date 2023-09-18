@@ -17,13 +17,12 @@ export class WeatherService {
     return this.http.get(url);
   }
 
-  getWeatherDataForThisWeak(latitude: string, longitude: string, placeID: string) {
+  getWeatherDataForThisWeak(latitude: string, longitude: string ) {
     return this.getTimezone(latitude, longitude).pipe(
       switchMap((timezoneData) => {
-        const timezone = timezoneData.timeZoneId;
-        console.log(timezone)
-        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,precipitation_sum,rain_sum&timezone=${timezone}`;
-        return url
+        const timezone = encodeURIComponent(timezoneData.timeZoneId);
+        const url = `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&daily=temperature_2m_max,temperature_2m_min,rain_sum,windspeed_10m_max&&timezone=${timezone}`;
+        return this.http.get(url);
       })
     );
   }
