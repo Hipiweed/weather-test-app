@@ -11,28 +11,65 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class AppComponent {
   weatherData:undefined | WeatherData[] = undefined;
+  thisWeek:boolean = false;
+  lat: string | undefined;
+  lng: string | undefined;
+  city: string = ''
 
   constructor(private weatherService: WeatherService, private changeDetector: ChangeDetectorRef) {}
 
-  onLocationChanged(location: {lat: number, lng: number, city: string | undefined}) {
-    const lat = location.lat.toString();
-    const lng = location.lng.toString();
-    this.weatherService.getWeatherDataForThisWeak(lat, lng).subscribe((data: any) => {
-      const weatherData: WeatherData[] = data.daily.time.map((time: string, index: number) => {
-        return {
-          maxTemp: data.daily.temperature_2m_max[index],
-          minTemp: data.daily.temperature_2m_min[index],
-          rain: data.daily.rain_sum[index],
-          avrageTemp: (data.daily.temperature_2m_max[index] + data.daily.temperature_2m_min[index]) / 2,
-          city:location.city,
-          windSpeed: data.daily.windspeed_10m_max[index],
-          date: time
-        };
-      });
-      this.weatherData = weatherData
-      this.changeDetector.detectChanges();
-    })
 
+  fetchWeatherData() {
+    if (this.lat && this.lng) {
+      const lat = this.lat.toString();
+      const lng = this.lng.toString();
+      const city = this.city
+
+      if (this.thisWeek) {
+        this.weatherService.getWeatherDataForThisWeek(lat, lng).subscribe((data: any) => {
+          const weatherData: WeatherData[] = data.daily.time.map((time: string, index: number) => {
+            return {
+              maxTemp: data.daily.temperature_2m_max[index],
+              minTemp: data.daily.temperature_2m_min[index],
+              rain: data.daily.rain_sum[index],
+              avrageTemp: (data.daily.temperature_2m_max[index] + data.daily.temperature_2m_min[index]) / 2,
+              city,
+              windSpeed: data.daily.windspeed_10m_max[index],
+              date: time
+            };
+          });
+          this.weatherData = weatherData
+          this.changeDetector.detectChanges();
+        })
+      } else {
+        this.weatherService.getWeatherDataForLastWeek(lat, lng).subscribe((data: any) => {
+          const weatherData: WeatherData[] = data.daily.time.map((time: string, index: number) => {
+            return {
+              maxTemp: data.daily.temperature_2m_max[index],
+              minTemp: data.daily.temperature_2m_min[index],
+              rain: data.daily.rain_sum[index],
+              avrageTemp: (data.daily.temperature_2m_max[index] + data.daily.temperature_2m_min[index]) / 2,
+              city,
+              windSpeed: data.daily.windspeed_10m_max[index],
+              date: time
+            };
+          });
+          this.weatherData = weatherData
+          this.changeDetector.detectChanges();
+        })
+      }
+    }
+  }
+
+  onLocationChanged(location: {lat: number, lng: number, city: string | undefined}) {
+    this.lat = location.lat.toString();
+    this.lng = location.lng.toString();
+    this.city = location.city ?? ''
+    this.fetchWeatherData();
+  }
+  onWeekChange(thisWeek: boolean) {
+  this.thisWeek = thisWeek
+  this.fetchWeatherData();
   }
 
 }

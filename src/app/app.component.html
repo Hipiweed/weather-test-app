@@ -3,7 +3,7 @@
     <div class="m-0 title">Weather</div>
   </div>
   <app-search (locationChanged)="onLocationChanged($event)"></app-search>
-  <app-weather  [weatherData]="weatherData"></app-weather>
+  <app-weather (thisWeek)="onWeekChange($event)" [weatherData]="weatherData"></app-weather>
 </div>
 
 <router-outlet></router-outlet>
