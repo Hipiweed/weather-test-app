@@ -17,7 +17,13 @@ export class WeatherService {
     return this.http.get(url);
   }
 
-  getWeatherDataForThisWeak(latitude: string, longitude: string ) {
+  getCityName(latitude: string, longitude: string) {
+    const apiKey = '***REMOVED***';
+    const urlCityName = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
+    return this.http.get(urlCityName);
+  }
+
+  getWeatherDataForThisWeak(latitude: string, longitude: string, ) {
     return this.getTimezone(latitude, longitude).pipe(
       switchMap((timezoneData) => {
         const timezone = encodeURIComponent(timezoneData.timeZoneId);

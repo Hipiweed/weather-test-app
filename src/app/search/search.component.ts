@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { WeatherService } from '../services/weather.service';
 
 
 
@@ -18,7 +19,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   autocomplete: google.maps.places.Autocomplete | undefined
 
-  constructor() {}
+  constructor(private weaherService: WeatherService) {}
 
   ngOnInit(): void {
     // Get user's location
@@ -26,11 +27,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
       .then(location => {
         const lat = location.lat;
         const lng = location.lng;
+        let city = '';
 
-        // Update inputField
-        this.inputField.nativeElement.value = `${lat}, ${lng}`;
-
-        // Update autocomplete
+        this.weaherService.getCityName(lat.toString(),lng.toString()).subscribe((data: any) => {
+          city = data.results[0].address_components[2].long_name
+          this.inputField.nativeElement.value = city
+          this.locationChanged.emit({ lat, lng, city });
+        })
         if (this.autocomplete) {
           this.autocomplete.setBounds(new google.maps.LatLngBounds(location));
         }
@@ -75,8 +78,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
              resolve({ lat, lng });
            },
            error => {
-             // Handle error
-             reject(error);
+             throw Error('Could not get user data please type data')
+
            }
          );
        } else {
