@@ -6,6 +6,7 @@ import { Observable, switchMap } from 'rxjs';
   providedIn: 'root'
 })
 export class WeatherService {
+  private apiKey = process.env["API_KEY"]
 
   constructor(private http: HttpClient) { }
 
@@ -17,14 +18,14 @@ export class WeatherService {
   };
 
   getTimezone(latitude: string, longitude: string): Observable<any> {
-    const apiKey = '***REMOVED***';
+    const apiKey = this.apiKey;
     const timestamp = Math.floor(Date.now() / 1000);
     const url = `https://maps.googleapis.com/maps/api/timezone/json?location=${latitude},${longitude}&timestamp=${timestamp}&key=${apiKey}`;
     return this.http.get(url);
   }
 
   getCityName(latitude: string, longitude: string) {
-    const apiKey = '***REMOVED***';
+    const apiKey = this.apiKey;
     const urlCityName = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${apiKey}`;
     return this.http.get(urlCityName);
   }
